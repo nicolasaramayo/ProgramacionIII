@@ -1,6 +1,9 @@
 <?php
 
-require_once "/IMostrable.php";
+require_once(realpath(dirname(__FILE__) . "/IMostrable.php"));
+
+// SI NO ANDA CON EL REQUIRE_ONCE DE ARRIBA FIJARSE CON ESTE:
+// require_once "/IMostrable.php";
 
 class Direccion implements IMostrable
 {
@@ -49,7 +52,7 @@ class Direccion implements IMostrable
 
     public function mostrarHTML()
     {
-        echo "<h1> Direccion </h1>";
+        echo "<h2> Direccion </h2>";
         echo "<p>calle: " . $this->getCalle() . "</p>";
         echo "<p>altura: " . $this->getAltura() . "</p>";
         $this->getlocalidad()->mostrarHTML();

@@ -1,6 +1,9 @@
 <?php
 
-require_once "/Persona.php";
+require_once(realpath(dirname(__FILE__) . "/Persona.php"));
+
+// SI NO ANDA CON EL REQUIRE_ONCE DE ARRIBA FIJARSE CON ESTE:
+// require_once "/Persona.php";
 
 class Alumno extends Persona implements IMostrable
 {

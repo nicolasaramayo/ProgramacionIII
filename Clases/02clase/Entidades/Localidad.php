@@ -34,7 +34,7 @@ class Localidad
     
     public function mostrarHTML()
     {
-        echo "<h1> Localidad </h1>";
+        echo "<h2> Localidad </h2>";
         echo "<p>codigoPostal: " . $this->getcodigoPostal() . "</p>";
         echo "<p>Nombre: " . $this->getNombre() . "</p>";
     }

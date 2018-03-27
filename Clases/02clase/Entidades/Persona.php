@@ -1,6 +1,9 @@
 <?php
 
-require_once "/IMostrable.php";
+require_once(realpath(dirname(__FILE__) . "/IMostrable.php"));
+
+// SI NO ANDA CON EL REQUIRE_ONCE DE ARRIBA FIJARSE CON ESTE:
+// require_once "/IMostrable.php";
 
 class Persona implements IMostrable
 {
@@ -64,7 +67,7 @@ class Persona implements IMostrable
     
     public function mostrarHTML()
     {
-        echo "<h1> Persona </h1>";
+        echo "<h2> Persona </h2>";
         echo "<p>Nombre: " . $this->getNombre() . "</p>";
         echo "<p>Apellido: " . $this->getApellido() . "</p>";
         echo "<p>D.N.I: " . $this->getDNI() . "</p>";

@@ -1,6 +1,9 @@
 <?php
 
-require_once "/Persona.php";
+require_once(realpath(dirname(__FILE__) . "/Persona.php"));
+
+// SI NO ANDA CON EL REQUIRE_ONCE DE ARRIBA FIJARSE CON ESTE:
+// require_once "/Persona.php";
 
 class Profesor extends Persona implements IMostrable
 {
@@ -38,20 +41,21 @@ class Profesor extends Persona implements IMostrable
     public function mostrarHTML()
     {
         echo "<h1> PROFESOR </h1>";
+        parent::mostrarHTML();
         //echo "<p>Materias: " . $this->getMaterias() . "</p>";
-        echo "<p>Días:</p>";
+        echo "<p><strong>Días:</strong></p>";
 
         foreach ($this->getDias() as $dias) {
             echo "<li>" . $dias . "</li>";
         }
         
-        echo "<p>Materias:</p>";
+        echo "<p><strong>Materias:</strong></p>";
 
         foreach ($this->getMaterias() as $materias) {
             echo "<li>" . $materias . "</li>";
         }
 
-        parent::mostrarHTML();
+        
     }
 
 }
