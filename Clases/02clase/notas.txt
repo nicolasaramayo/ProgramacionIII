@@ -1,0 +1,39 @@
+
+CLASES
+--------------
+PERSONA
+LOCALIDAD
+atributos privados, getters y setters.
+
+crear un obj de cada uno y mostrar con var_dump()
+
+
+index
+-------
+index objs 
+persona abstractar
+
+6 obj intercalado 3 y 3 
+1ero profesor luego alumno.
+
+3 localidades quilmes avellaneda lanus
+
+bucle mostrarHTML 
+
+materias y dias 2 elementos.
+
+abm 
+
+ARRAY DE IMOSTRABLES.
+
+Hacer en una carpeta aparte los ejercicios y otro el TP.
+
+
+PROXIMAS CLASES
+--------------------------
+ARCHIVOS abm
+GUARDAMOS LA INTERACCION
+AUTOCOMPLETADO 
+
+
+-------------
