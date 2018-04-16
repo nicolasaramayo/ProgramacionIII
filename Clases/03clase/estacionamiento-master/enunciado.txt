@@ -1,0 +1,31 @@
+ENUNCIADO ESTACIONAMIENTO
+------------------------------
+SE DEBE CREAR las siguientes clases con sus atributos  y metodos
+1 clase vehiculo atrib pribados patente hora ingreso 
+construtor que recibe los dos paremetros
+metodo estacionar que debuelve true o flse
+get patente que debuelve la patente
+sacar que recibe patente y debuelve un importe
+traer todo trae el listado de veiculos estacionados
+guardartodo que revice un listado de veiculos que retorna true o false. guarda veiculos 
+
+
+2 clase facturado
+tieiene como atributos privados: veiculos horasalida e importe.
+constructor que recive un vehiculo y horadesalida
+metodo traer todos retorna un listado de facturados
+y guardartodos retorna true y recive un listado de facturado.
+
+3 claseUITABLAS
+tiene dos metodos creartabla estacionados y creartablasfacturados
+
+
+GESTION.php
+un solo parámetro patente
+
+get le doy la salida del vehiculo.
+post guardar
+DETECTAR METDO ISGET ISPOST
+
+si es post 
+La idea 

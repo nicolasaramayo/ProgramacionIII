@@ -1,0 +1,1 @@
+ <table border=1><th> patente </th><th> Ingreso</th> </table>
