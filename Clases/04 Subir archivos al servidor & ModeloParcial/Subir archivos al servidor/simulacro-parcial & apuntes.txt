@@ -1,0 +1,44 @@
+
+SIMULACRO PARCIAL:
+=========================
+
+testupload.php
+
+si en algun caso tengo cargo en el header (al lado de body)
+
+$_files crear un archivo temporal
+
+*subo la foto y se guarda como el nombre del usuario(nombre que se le pasa por post)
+
+PARCIAL
+=============
+podemos traer codigo
+alta baja modificacion
+cuales son todos los posibles errores que nos pueden ocurrir
+
+MODELO DE PARCIAL
+====================
+(1 HORA Y MEDIA.)
+ALTA BAJA modificacion
+_nombre(post) _legajo(post) _foto
+
+(_foto)
+se va a guardar en el archivo alumno.txt
+la foto va hacer nombre+legajo.extencion (pepito10888.jpg)
+foto seguarda en el subdirectorio /fotos/
+
+alta
+datos por post nombre y legajo lo que si le paso es el archivo.
+
+baja
+crear alumnosborrado/alumnos.txt donde se guarden alumnos.txt
+fotosborradas/fotofecha.ext 
+
+modificacion
+idem de baja
+alumnosmodificados/alumno.txt
+fotocambiada/fotofecha.ext
+
+listado listado es por GET
+podemos devolver una tabla html 
+echo de la table
