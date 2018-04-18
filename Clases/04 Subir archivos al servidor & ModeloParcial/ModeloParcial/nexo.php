@@ -3,8 +3,8 @@
 require_once ("entidades/alumno.php");
 require_once ("entidades/archivo.php");
 //var_dump($_POST);
-var_dump($_POST);
-var_dump($_FILES);
+//var_dump($_POST);
+//var_dump($_FILES);
 
 
 
@@ -71,6 +71,40 @@ switch($queHago){
 	
 		echo $mensaje;
 		
+		break;
+
+	// MOSTRAR TABLA
+	case 'listar':
+		
+		// OBTENGO TODOS EL ARRAY DE ALUMNOS.
+		$Alumnos = alumno::TraerTodosLosProductos();
+
+		//echo $Alumnos[0]->GetFoto();
+
+		// CREO LA TABLA CON SUS CON LOS HEADERS NOMBRE LEGAJO Y FOTO.
+		$tabla = '<table class="table">
+					<thead style="background:rgb(14, 26, 112);color:#fff;">
+						<tr>
+							<th>  LEGAJO </th>
+							<th>  NOMBRE     </th>
+							<th>  FOTO       </th>
+						</tr>  
+					</thead>';   	
+		
+		// RECORRO EL LISTADO DE ALUMNOS Y LOS MUESTRO EN UN TD
+		foreach ($Alumnos as $alumno){
+		
+			$tabla .= "<tr>
+				<td>".$alumno->GetLegajo()."</td>
+				<td>".$alumno->GetNombre()."</td>
+				<td><img src='archivos/".$alumno->GetFoto()."' width='100px' height='100px'/></td>
+			</tr>"; 
+		}
+
+		// ETIQUETA DE CIERRE DE LA TABLA.
+		$tabla .= '</table>';		
+		
+		echo $tabla;
 		break;
 		
 	default:

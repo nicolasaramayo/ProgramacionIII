@@ -16,7 +16,7 @@ class alumno
    {
        return $this->_legajo;
    }
-   public function Getlegajo()
+   public function GetLegajo()
    {
        return $this->_nombre;
    }
