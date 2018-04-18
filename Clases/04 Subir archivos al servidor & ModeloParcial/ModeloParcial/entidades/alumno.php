@@ -105,13 +105,13 @@ class alumno
    {
        $resultado = TRUE;
        
-       $ListaDeProductosLeidos = Producto::TraerTodosLosProductos();
+       $ListaDeProductosLeidos = alumno::TraerTodosLosProductos();
        $ListaDeProductos = array();
        $imagenParaBorrar = NULL;
        
        for($i=0; $i<count($ListaDeProductosLeidos); $i++){
-           if($ListaDeProductosLeidos[$i]->codBarra == $obj->codBarra){//encontre el modificado, lo excluyo
-               $imagenParaBorrar = trim($ListaDeProductosLeidos[$i]->pathFoto);
+           if($ListaDeProductosLeidos[$i]->_legajo == $obj->_legajo){//encontre el modificado, lo excluyo
+               $imagenParaBorrar = trim($ListaDeProductosLeidos[$i]->_foto);
                $ListaDeProductosLeidos[$i] = $obj;
                //continue;
            }
@@ -124,7 +124,7 @@ class alumno
        unlink("archivos/".$imagenParaBorrar);
        
        //ABRO EL ARCHIVO
-       $ar = fopen("archivos/productos.txt", "w");
+       $ar = fopen("archivos/alumnos.txt", "w");
        
        //ESCRIBO EN EL ARCHIVO
        foreach($ListaDeProductosLeidos AS $item){

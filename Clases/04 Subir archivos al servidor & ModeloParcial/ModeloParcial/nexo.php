@@ -14,7 +14,7 @@ switch($queHago){
 
 
 	case "Subir":
-
+	case "modificar":
 		
 
 		$respuestaDeSubir = Archivo::Subir();
@@ -38,20 +38,22 @@ switch($queHago){
 */
 	//	$p = new Producto($codBarra, $nombre, $archivo);
 
-	
-
-		if(!alumno::Guardar($p)){
-			echo "Error al generar archivo";
-			break;
+		// SUBIR
+		if ($queHago === "Subir") {
+			if(!alumno::Guardar($p)){
+				echo "Error al generar archivo";
+				break;
+			}	
 		}
+		
 	
 		// MODIFICAR
-		/*if ($queHago == "Modificar") {
+		if ($queHago == "modificar") {
 			if (!alumno::Modificar($p)) {
 				echo "Error no se pudo modificar el archivo";
 				break;
 			}
-		}*/
+		}
 		
 	
 		
