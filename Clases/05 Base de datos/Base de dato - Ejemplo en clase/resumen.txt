@@ -1,0 +1,106 @@
+
+start apache y mysql
+
+CREAR BD
+nueva->ejemplouno->utf 8 spanish->crear
+
+nombre de la tabla=usuario con dos columnas.
+
+usuario
+---------
+idusuario int 15 autoincrement AI. CONTINUAR
+nombre varchar 50
+
+
+SOLAPA ESTRUCTURAS
+
+INSERTAR
+---------
+INSERT INTO `tabla`(`para`) VALUES (""),(""),("")
+
+EJEMPLO
+INSERT INTO `usuario`(`nombre`) VALUES ("jose"),("maria"),("jesus")
+
+
+PUESTOTRABAJO
+-------------
+idpuesto INT AUTOINCREMENT AI CONTINUAR
+descripcion VARCHAR 50
+piso int
+sector varchar
+
+COMMNADO PARA INSSERTAR
+INSERT INTO `puestotrabajo`(`descripcion`, `piso`, `sector`) VALUES ("windows7",2,"soporte"), ("windows95",3,"testing"), ("debian",4,"desarrollo"), ("ubuntu",4,"desarrollo"), ("parrot os",6,"seguridad")
+
+
+UPDATE MODIFICA UN CAMPO O TODO
+PASA POR PUT
+
+UPDATE usuario
+SET nombre = "maria"
+WHERE idusuario = 1
+
+DELETE borra un id (BORRA LA FILA)
+EJEMPLO
+DELETE FROM `usuario` WHERE idusuario > 3
+
+
+INSERT INTO `usuario-trabajo`(`idusuario`, `idpuesto`, `fecha`) VALUES (1,1,'2018-03-01'), (1,1,'2018-04-01'), (1,5,'2018-02-01'), (2,3,'2018-01-01'), (2,3,'2018-03-10'), (1,4,'2018-05-01')
+
+
+EJERCICIO
+SELECT 
+FROM (de donde lo traigo)
+3 lugarres importantes 
+
+
+
+SELECT u.nombre FROM `usuario` as u WHERE idusuario = 2
+TRAE A JOSE 
+PERO 
+se ejecuta primero el from despues el where
+
+
+SELECT p.descripcion as sistema 
+FROM `puestotrabajo` as p 
+WHERE 1=1
+
+//la columna se llama ahora SISTEMA
+
+
+SELECT u.nombre, t.descripcion
+FROM `usuario-trabajo` as ut, `usuario` as u,`puestotrabajo` as t  
+WHERE 1
+
+SELECT u.nombre as usuario, t.descripcion as sistema
+FROM `usuario-trabajo` as ut, `usuario` as u,`puestotrabajo` as t  
+WHERE 1 = 1
+
+// Mostrando filas 0 - 24 (total de 90, La consulta tardó 0.0000 segundos.)
+
+
+SELECT u.nombre as usuario, t.descripcion as sistema
+FROM `usuario-trabajo` as ut, `usuario` as u,`puestotrabajo` as t 
+WHERE u.idusuario = ut.idusuario 
+AND t.idpuesto = ut.idpuesto
+
+// Mostrando filas 0 - 5 (total de 6, La consulta tardó 0.0010 segundos.)
+
+SELECT COUNT(*) as cantidad
+FROM `usuario-trabajo` as ut, `usuario` as u,`puestotrabajo` as t 
+WHERE u.idusuario = ut.idusuario 
+AND t.idpuesto = ut.idpuesto
+
+// CANTIDAD 
+// 6
+
+SELECT u.nombre as usuario, t.descripcion as sistema 
+FROM `usuario-trabajo` as ut, `usuario` as u,`puestotrabajo` as t 
+WHERE u.idusuario = ut.idusuario 
+AND t.idpuesto = ut.idpuesto 
+ORDER BY u.nombre ASC
+
+// ordena por nombre
+
+NOS VAMOS A LLEVAR UN ARCHIVO
+Y ESO EJECUTARLO
