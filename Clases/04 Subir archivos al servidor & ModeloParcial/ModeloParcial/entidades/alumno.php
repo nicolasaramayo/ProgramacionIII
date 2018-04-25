@@ -27,15 +27,15 @@ class alumno
 
    public function SetNombre($valor)
    {
-       $this->SetNombre = $valor;
+       $this->_nombre = $valor;
    }
    public function SetLegajo($valor)
    {
-       $this->SetLegajo = $valor;
+       $this->_legajo = $valor;
    }
    public function SetFoto($valor)
    {
-       $this->SetFoto = $valor;
+       $this->_foto = $valor;
    }
 
 //--------------------------------------------------------------------------------//
@@ -81,7 +81,7 @@ class alumno
    public static function TraerTodosLosProductos()
    {
 
-       $ListaDeProductosLeidos = array();
+       $ListaDeAlumnosLeidos = array();
 
        //leo todos los productos del archivo
        $archivo=fopen("archivos/alumnos.txt", "r");
@@ -93,41 +93,43 @@ class alumno
            //http://www.w3schools.com/php/func_string_explode.asp
            $productos[0] = trim($productos[0]);
            if($productos[0] != ""){
-               $ListaDeProductosLeidos[] = new alumno($productos[0], $productos[1],$productos[2]);
+               $ListaDeAlumnosLeidos[] = new alumno($productos[0], $productos[1],$productos[2]);
            }
        }
        fclose($archivo);
        
-       return $ListaDeProductosLeidos;
+       return $ListaDeAlumnosLeidos;
        
    }
    public static function Modificar($obj)
    {
        $resultado = TRUE;
        
-       $ListaDeProductosLeidos = alumno::TraerTodosLosProductos();
+       $ListaDeAlumnosLeidos = alumno::TraerTodosLosProductos();
        $ListaDeProductos = array();
        $imagenParaBorrar = NULL;
        
-       for($i=0; $i<count($ListaDeProductosLeidos); $i++){
-           if($ListaDeProductosLeidos[$i]->_legajo == $obj->_legajo){//encontre el modificado, lo excluyo
-               $imagenParaBorrar = trim($ListaDeProductosLeidos[$i]->_foto);
-               $ListaDeProductosLeidos[$i] = $obj;
+       for($i=0; $i<count($ListaDeAlumnosLeidos); $i++){
+           if($ListaDeAlumnosLeidos[$i]->_legajo == $obj->_legajo){//encontre el modificado, lo excluyo
+               $imagenParaBorrar = trim($ListaDeAlumnosLeidos[$i]->_foto);
+               alumno::GuardarImagenModificada($ListaDeAlumnosLeidos[$i]);
+
+               $ListaDeAlumnosLeidos[$i] = $obj;
                //continue;
            }
-           //$ListaDeProductos[$i] = $ListaDeProductosLeidos[$i];
+           //$ListaDeProductos[$i] = $ListaDeAlumnosLeidos[$i];
        }
 
        //array_push($ListaDeProductos, $obj);//agrego el producto modificado
        
        //BORRO LA IMAGEN ANTERIOR
-       unlink("archivos/".$imagenParaBorrar);
+       unlink("archivos/fotos/".$imagenParaBorrar);
        
        //ABRO EL ARCHIVO
        $ar = fopen("archivos/alumnos.txt", "w");
        
        //ESCRIBO EN EL ARCHIVO
-       foreach($ListaDeProductosLeidos AS $item){
+       foreach($ListaDeAlumnosLeidos AS $item){
            $cant = fwrite($ar, $item->ToString());
            
            if($cant < 1)
@@ -149,20 +151,22 @@ class alumno
            
        $resultado = TRUE;
        
-       $ListaDeProductosLeidos = alumno::TraerTodosLosProductos();
+       $ListaDeAlumnosLeidos = alumno::TraerTodosLosProductos();
        $ListaDeProductos = array();
        $imagenParaBorrar = NULL;
        
-       for($i=0; $i<count($ListaDeProductosLeidos); $i++){
-           if($ListaDeProductosLeidos[$i]->_legajo == $legajo){//encontre el borrado, lo excluyo
-               $imagenParaBorrar = trim($ListaDeProductosLeidos[$i]->_foto);
+       for($i=0; $i<count($ListaDeAlumnosLeidos); $i++){
+           if($ListaDeAlumnosLeidos[$i]->_legajo == $legajo){//encontre el borrado, lo excluyo
+               $imagenParaBorrar = trim($ListaDeAlumnosLeidos[$i]->_foto);
+			   alumno::GuardarImagenBorrada($ListaDeAlumnosLeidos[$i]);
                continue;
            }
-           $ListaDeProductos[$i] = $ListaDeProductosLeidos[$i];
+           $ListaDeProductos[$i] = $ListaDeAlumnosLeidos[$i];
        }
 
+
        //BORRO LA IMAGEN ANTERIOR
-       unlink("archivos/".$imagenParaBorrar);
+       unlink("archivos/fotos/".$imagenParaBorrar);
        
        //ABRO EL ARCHIVO
        $ar = fopen("archivos/alumnos.txt", "w");
@@ -183,6 +187,99 @@ class alumno
        
        return $resultado;
    }
+
+   public static function GuardarImagenBorrada($obj)
+	{
+		$ListaDeAlumnosLeidos = alumno::TraerTodosLosProductos();
+		$imagenParaBorrar = NULL;
+
+		// SI LA CARPETA NO EXISTE LA CREO.
+		if (!file_exists("archivos/alumnosborrados/")) {
+			mkdir("archivos/alumnosborrados/");
+		}
+		
+		if (!file_exists("archivos/fotos/alumnosborrados/")) {
+			mkdir("archivos/fotos/alumnosborrados/");
+		}
+
+		// ABRO EL ARCHIVO
+		$ar = fopen("archivos/alumnosborrados/alumnosborrados.txt","a");
+
+		//ESCRIBO EN EL ARCHIVO
+		$cant = fwrite($ar, $obj->ToString());
+		
+		if($cant > 0)
+		{
+			$RESULTADO = TRUE;			
+		}
+		//CIERRO EL ARCHIVO
+		fclose($ar);
+		
+		for ($i=0; $i < count($ListaDeAlumnosLeidos); $i++) { 
+			if ($ListaDeAlumnosLeidos[$i]->_legajo == $obj->_legajo) {
+				$imagenParaBorrar = trim($ListaDeAlumnosLeidos[$i]->_foto);				
+				break;
+			}
+		}
+		$fotoInfo = pathinfo("archivos/fotos/".$imagenParaBorrar,PATHINFO_FILENAME);
+		$extension = pathinfo("archivos/fotos/".$imagenParaBorrar,PATHINFO_EXTENSION);
+
+
+		echo $fotoInfo . ".". $extension;
+
+		if (!file_exists("archivos/fotos/$imagenParaBorrar")) {
+			echo "NO existe la foto";
+		}else {
+            copy("archivos/fotos/".$imagenParaBorrar, "archivos/fotos/alumnosborrados/".$fotoInfo.date("Ymd_His").".".$extension);
+			echo "La foto pasará a la carpeta archivos/fotos/alumnosborrados/ (NombreFoto + Fecha de borrado).Extension";
+		}
+
+		
+		return $RESULTADO;
+	}
+
+	public static function GuardarImagenModificada($obj)
+	{
+		$ListaDeAlumnosLeidos = alumno::TraerTodosLosProductos();
+		$imagenParaBorrar = NULL;
+
+		// SI LA CARPETA NO EXISTE LA CREO.
+		if (!file_exists("archivos/alumnosmodificados/")) {
+			mkdir("archivos/alumnosmodificados/");
+		}
+		
+		if (!file_exists("archivos/fotos/alumnosmodificados/")) {
+			mkdir("archivos/fotos/alumnosmodificados/");
+		}
+
+		// ABRO EL ARCHIVO
+		$ar = fopen("archivos/alumnosmodificados/alumnosmodificados.txt","a");
+
+		//ESCRIBO EN EL ARCHIVO
+		$cant = fwrite($ar, $obj->ToString());
+		
+		if($cant > 0)
+		{
+			$RESULTADO = TRUE;			
+		}
+		//CIERRO EL ARCHIVO
+		fclose($ar);
+		
+		for ($i=0; $i < count($ListaDeAlumnosLeidos); $i++) { 
+			if ($ListaDeAlumnosLeidos[$i]->_legajo == $obj->_legajo) {
+				$imagenParaBorrar = trim($ListaDeAlumnosLeidos[$i]->_foto);				
+				break;
+			}
+		}
+
+		$fotoInfo = pathinfo("archivos/fotos/".$imagenParaBorrar,PATHINFO_FILENAME);
+		$extension = pathinfo("archivos/fotos/".$imagenParaBorrar,PATHINFO_EXTENSION);
+
+
+		copy("archivos/fotos/".$imagenParaBorrar,"archivos/fotos/alumnosmodificados/".$fotoInfo.date("Ymd_His").".".$extension);
+
+		return $RESULTADO;
+	}
 //--------------------------------------------------------------------------------//
 
 

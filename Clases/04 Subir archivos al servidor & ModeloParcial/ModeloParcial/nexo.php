@@ -10,54 +10,73 @@ require_once ("entidades/archivo.php");
 
 $queHago = isset($_POST['queHago']) ? $_POST['queHago'] : NULL;
 
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+	$queHago = isset($_GET['queHago']) ? $_GET['queHago'] : NULL;
+}
+
+
 switch($queHago){
 
 
-	case "Subir":
-	case "modificar":
+	case "subir":
 		
+		$legajo = isset($_POST['legajo']) ? $_POST['legajo'] : NULL;
+		$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : NULL;
 
-		$respuestaDeSubir = Archivo::Subir();
+		// SETEO EL NOMBRE DE LA FOTO: NOMBRE+LEGAJO. EXTENSION (PEPITO102525.JPG)
+		$NombreDeFoto = $nombre.$legajo;
+		$respuestaDeSubir = Archivo::Subir($NombreDeFoto);
 
 		if(!$respuestaDeSubir["Exito"]){
 			echo "error " .$respuestaDeSubir["Mensaje"];
 			break;
 		}
 
-		$legajo = isset($_POST['legajo']) ? $_POST['legajo'] : NULL;
-		$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : NULL;
 		$archivo = $respuestaDeSubir["PathTemporal"];
 
+
 		$p = new alumno($nombre, $legajo,$archivo);
-
+		var_dump($p);
 		echo "Bien " ;
-		/*
-		$codBarra = isset($_POST['codBarra']) ? $_POST['codBarra'] : NULL;
-		$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : NULL;
-		$archivo = $res["PathTemporal"];
-*/
-	//	$p = new Producto($codBarra, $nombre, $archivo);
-
+		
 		// SUBIR
-		if ($queHago === "Subir") {
-			if(!alumno::Guardar($p)){
-				echo "Error al generar archivo";
-				break;
-			}	
-		}
-		
 	
-		// MODIFICAR
-		if ($queHago == "modificar") {
-			if (!alumno::Modificar($p)) {
-				echo "Error no se pudo modificar el archivo";
-				break;
-			}
-		}
-		
+		if(!alumno::Guardar($p)){
+			echo "Error al generar archivo";
+			break;
+		}	
 	
+		break;
+
+
+	case 'modificar':
+		$legajo = isset($_POST['legajo']) ? $_POST['legajo'] : NULL;
+		$nombre = isset($_POST['nombre']) ? $_POST['nombre'] : NULL;
+
+		// SETEO EL NOMBRE DE LA FOTO: NOMBRE+LEGAJO. EXTENSION (PEPITO102525.JPG)
+		$NombreDeFoto = $nombre.$legajo;
+		$respuestaDeSubir = Archivo::Subir($NombreDeFoto);
+
+		if(!$respuestaDeSubir["Exito"]){
+			echo "error " .$respuestaDeSubir["Mensaje"];
+			break;
+		}
+
+		$archivo = $respuestaDeSubir["PathTemporal"];
+
+
+		$p = new alumno($nombre, $legajo,$archivo);
+		var_dump($p);
+		echo "Bien " ;
+	
+		if (alumno::Modificar($p)) {
+			echo "El archivo ha sido modificado";
+		}else {
+			echo "Ocurrio un error el archivo no se modifico";
+		}
 		
 		break;
+
 		
 	case "eliminar":
 		$legajo = isset($_POST['legajo']) ? $_POST['legajo'] : NULL;
@@ -97,7 +116,7 @@ switch($queHago){
 			$tabla .= "<tr>
 				<td>".$alumno->GetLegajo()."</td>
 				<td>".$alumno->GetNombre()."</td>
-				<td><img src='archivos/".$alumno->GetFoto()."' width='100px' height='100px'/></td>
+				<td><img src='archivos/fotos/".$alumno->GetFoto()."' width='100px' height='100px'/></td>
 			</tr>"; 
 		}
 

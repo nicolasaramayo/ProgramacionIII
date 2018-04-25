@@ -2,18 +2,33 @@
 
 class Archivo{
 
-	public static function Subir()
+//--------------------------------------------------------------------------------//	
+//--ATRIBUTOS
+	private $_nombreFoto = NULL;
+//--------------------------------------------------------------------------------//
+
+
+
+//--------------------------------------------------------------------------------//
+//--METODOS DE CLASE
+	public static function Subir($nombreDeLaFoto)
 	{
 		$retorno["Exito"] = TRUE;
 		var_dump($_FILES["archivo"]["name"]);
 		//INDICO CUAL SERA EL DESTINO DEL ARCHIVO SUBIDO
-		$archivoTmp = date("Ymd_His") . ".jpg";
-		$destino = "archivos/" . $archivoTmp;
-		
+		//$archivoTmp = date("Ymd_His") . ".jpg";
+		$archivoTmp = $nombreDeLaFoto . ".jpg";
+		// SI LA CARPETA NO EXISTE LO CREO.
+		if (!file_exists("archivos/fotos/")) {
+			mkdir("archivos/fotos/");
+		}
+
+		$destino = "archivos/fotos/" . $archivoTmp;
+
 		$tipoArchivo = pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION);
 
 		//VERIFICO EL TAMAÑO MAXIMO QUE PERMITO SUBIR
-		if ($_FILES["archivo"]["size"] > 5000000000000) {
+		if ($_FILES["archivo"]["size"] > 50000000000) {
 			$retorno["Exito"] = FALSE;
 			$retorno["Mensaje"] = "El archivo es demasiado grande. Verifique!!!";
 			return $retorno;
