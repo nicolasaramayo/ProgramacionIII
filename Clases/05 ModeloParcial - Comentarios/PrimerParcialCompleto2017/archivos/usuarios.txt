@@ -1,2 +1,1 @@
-nicolas - hoho@gmail.com - user - 22 - 2222
-karol - k@gmail.com - user - 20 - 5555
+nicolas - hoho@gmail.com - admin - 22 - 2222 - hoho@gmail.com.jpg

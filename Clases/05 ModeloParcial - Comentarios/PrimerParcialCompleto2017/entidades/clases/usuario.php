@@ -11,6 +11,7 @@ class usuario
     private $_perfil;
     private $_edad;
     private $_clave;
+    private $_pathFoto;
 //--------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------//
 //--GETTERS Y SETTERS
@@ -33,6 +34,10 @@ class usuario
    public function GetClave()
    {
       return $this->_clave;
+   }
+   public function GetFoto()
+   {
+       return $this->_pathFoto;
    }
 
    public function SetNombre($valor)
@@ -57,21 +62,22 @@ class usuario
    }
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
-   public function __construct($nombre=NULL, $email=NULL, $perfil=NULL, $edad=NULL, $clave=NULL)
+   public function __construct($nombre=NULL, $email=NULL, $perfil=NULL, $edad=NULL, $clave=NULL, $foto=NULL)
    {
-       if($nombre !== NULL && $email !== NULL && $clave !== NULL && $edad !== NULL && $perfil !== NULL){
+       if($nombre !== NULL && $email !== NULL && $clave !== NULL && $edad !== NULL && $perfil !== NULL && $foto!== NULL){
             $this->_nombre = $nombre;
             $this->_email = $email;
             $this->_perfil = $perfil;
             $this->_edad = $edad;
             $this->_clave = $clave;
+            $this->_pathFoto = $foto;
        }
    }
 //--------------------------------------------------------------------------------//
 //--TOSTRING
      public function ToString()
    {
-         return $this->_nombre." - ".$this->_email." - ".$this->_perfil." - ".$this->_edad." - ". $this->_clave."\r\n";
+         return $this->_nombre." - ".$this->_email." - ".$this->_perfil." - ".$this->_edad." - ". $this->_clave. " - ".$this->_pathFoto."\r\n";
    }
 //--------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------//
@@ -108,7 +114,7 @@ class usuario
            //http://www.w3schools.com/php/func_string_explode.asp
            $usuarios[0] = trim($usuarios[0]);
            if($usuarios[0] != ""){
-               $ListaDeUsuariosLeidos[] = new usuario($usuarios[0], $usuarios[1],$usuarios[2],$usuarios[3],trim($usuarios[4]));
+               $ListaDeUsuariosLeidos[] = new usuario($usuarios[0], $usuarios[1],$usuarios[2],$usuarios[3],$usuarios[4],trim($usuarios[5]));
            }
        }
        fclose($archivo);
@@ -121,12 +127,14 @@ class usuario
        $resultado = TRUE;
 
        $ListaDeUsuariosLeidos = usuario::TraerTodosLosUsuarios();
-       $ListaDeUsuarios = array();
-       $imagenParaBorrar = NULL;
+       //$ListaDeUsuarios = array();
+       //$imagenParaBorrar = NULL;
 
        for($i=0; $i<count($ListaDeUsuariosLeidos); $i++){
-           if($ListaDeUsuariosLeidos[$i]->_legajo == $obj->_legajo){//encontre el modificado, lo excluyo
-               $imagenParaBorrar = trim($ListaDeUsuariosLeidos[$i]->_foto);
+           if($ListaDeUsuariosLeidos[$i]->_email == $obj->_email && $ListaDeUsuariosLeidos[$i]->_clave == $obj->_clave){//encontre el modificado, lo excluyo
+               $imagenParaBorrar = trim($ListaDeUsuariosLeidos[$i]->_pathFoto);
+               var_dump($ListaDeUsuariosLeidos);
+               var_dump($imagenParaBorrar);
                $ListaDeUsuariosLeidos[$i] = $obj;
                //continue;
            }
@@ -134,14 +142,23 @@ class usuario
        }
        //array_push($ListaDeUsuarios, $obj);//agrego el producto modificado
 
-       //BORRO LA IMAGEN ANTERIOR
-       unlink("archivos/".$imagenParaBorrar);
+       // CREO LA CARPETA IMAGENESDEUSUARIO.
+       if ($imagenParaBorrar == "sin imagen") {
+           if (!file_exists("archivos/ImagenesDeUsuario/")) {
+               mkdir("archivos/ImagenesDeUsuario/");
+           }
+       }else {
+           //BORRO LA IMAGEN ANTERIOR
+           unlink("archivos/ImagenesDeUsuario/".$imagenParaBorrar);
+       }
+
+      //var_dump($ListaDeUsuariosLeidos);
 
        //ABRO EL ARCHIVO
        $ar = fopen("archivos/usuarios.txt", "w");
 
        //ESCRIBO EN EL ARCHIVO
-       foreach($ListaDeUsuariosLeidos AS $item){
+       foreach($ListaDeUsuariosLeidos as $item){
            $cant = fwrite($ar, $item->ToString());
 
            if($cant < 1)
@@ -203,30 +220,30 @@ class usuario
    {
        $ListaDeUsuariosLeidos = usuario::TraerTodosLosUsuarios();
        $ListaDeUsuarios = array();
-       $ExisteUsuario = FALSE;
+       $ExisteUsuario['Exito'] = FALSE;
 
        var_dump($ListaDeUsuariosLeidos);
        for($i=0; $i<count($ListaDeUsuariosLeidos); $i++){
            if($ListaDeUsuariosLeidos[$i]->_email == $email){//encontre el borrado, lo excluyo
-               $ExisteUsuario = TRUE;
+               $ExisteUsuario['Exito'] = TRUE;
                break;
            }
        }
 
-       if ($ExisteUsuario) {
+       if ($ExisteUsuario['Exito']) {
 
            if($ListaDeUsuariosLeidos[$i]->_clave == $clave)
            {
-               $ExisteUsuario['mensaje'] = "Bienvenido";
-               return TRUE;
+               $ExisteUsuario['Mensaje'] = "Bienvenido";
+               return $ExisteUsuario;
            }else {
-               $ExisteUsuario['mensaje'] = "Error de clave";
-               return FALSE;
+               $ExisteUsuario['Mensaje'] = "Error de clave";
+               return $ExisteUsuario;
            }
        }
 
-       $ExisteUsuario['mensaje'] = "No existe el usuario";
-       return FALSE;
+       $ExisteUsuario['Mensaje'] = "No existe el usuario";
+       return $ExisteUsuario;
    }
 
 //--------------------------------------------------------------------------------//

@@ -10,10 +10,7 @@ $titulo = isset($_POST['titulo']) ? $_POST['titulo'] : NULL;
 $comentario = isset($_POST['comentario']) ? $_POST['comentario'] : NULL;
 
 
-// SETEO EL NOMBRE DE LA FOTO: TITULO DEL COMENTARIO . EXTENSION (TITULO_COMENTARIO.JPG)
-$respuestaDeSubir = Archivo::Subir($titulo);
 
-$archivo = $respuestaDeSubir["PathTemporal"];
 
 $c1 = new Comentario($titulo,$email_user,$comentario,$archivo);
 

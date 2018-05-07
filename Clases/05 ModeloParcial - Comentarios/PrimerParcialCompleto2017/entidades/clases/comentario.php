@@ -25,6 +25,12 @@ class comentario
 
     }
 //--------------------------------------------------------------------------------//
+
+public function GetEmailUsuario()
+{
+    return $this->_emailUsuario;
+}
+//--------------------------------------------------------------------------------//
 //--TOSTRING
     public function ToString()
     {

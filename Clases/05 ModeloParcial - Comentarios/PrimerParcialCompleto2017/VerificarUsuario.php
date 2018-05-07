@@ -10,6 +10,7 @@ require "entidades/clases/usuario.php";
 $email = isset($_POST['email']) ? $_POST['email'] : NULL;
 $clave = isset($_POST['clave']) ? $_POST['clave'] : NULL;
 
-Usuario::VerificarUsuario($email,$clave);
+$respuesta = Usuario::VerificarUsuario($email,$clave);
 
+echo $respuesta['Mensaje'];
 ?>
